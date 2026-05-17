@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Matheran · The Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a1410;
+    --moss: #1c2e26;
+    --mist: #c9d4cc;
+    --bone: #f4ede2;
+    --rain: #6b8a82;
+    --gold: #d4a574;
+    --rust: #c66b3d;
+    --leaf: #4a7c59;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--ink);
+    color: var(--bone);
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    line-height: 1.5;
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+    opacity: 0.07;
+    mix-blend-mode: overlay;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 90vh;
+    position: relative;
+    padding: 2rem 1.5rem 2.5rem;
+    background:
+      radial-gradient(ellipse at 70% 20%, rgba(74,124,89,0.35), transparent 50%),
+      radial-gradient(ellipse at 20% 80%, rgba(28,46,38,0.6), transparent 60%),
+      linear-gradient(180deg, #0a1410 0%, #142019 60%, #1c2e26 100%);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 400' preserveAspectRatio='none'%3E%3Cpath d='M0,400 L0,280 L120,180 L220,240 L340,160 L460,220 L580,140 L700,200 L820,150 L940,210 L1060,170 L1200,230 L1200,400 Z' fill='%23142019' opacity='0.8'/%3E%3Cpath d='M0,400 L0,320 L100,260 L240,290 L360,240 L500,280 L640,230 L780,270 L900,240 L1040,280 L1200,260 L1200,400 Z' fill='%231c2e26' opacity='0.9'/%3E%3C/svg%3E") no-repeat bottom / 100% auto;
+    z-index: 1;
+  }
+  .rain { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .drop {
+    position: absolute;
+    width: 1px;
+    background: linear-gradient(transparent, rgba(201,212,204,0.6));
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    from { transform: translateY(-100px); }
+    to { transform: translateY(110vh); }
+  }
+  .mist-layer {
+    position: absolute;
+    bottom: 0; left: -10%; right: -10%;
+    height: 40%;
+    background: linear-gradient(180deg, transparent, rgba(201,212,204,0.15) 60%, rgba(201,212,204,0.25));
+    filter: blur(20px);
+    z-index: 3;
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    from { transform: translateX(-30px); }
+    to { transform: translateX(30px); }
+  }
+  .top-bar {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mist);
+    opacity: 0.7;
+  }
+  .dot {
+    display: inline-block; width: 6px; height: 6px;
+    background: var(--rust); border-radius: 50%;
+    margin-right: 0.5rem; animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+  .hero-content {
+    position: relative;
+    z-index: 10;
+    margin-top: auto;
+  }
+  .kicker {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.25rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .kicker::before { content: ""; height: 1px; width: 36px; background: var(--gold); }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(3rem, 13vw, 5.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    margin-bottom: 1rem;
+  }
+  .hero h1 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold);
+    display: block;
+    font-size: 0.55em;
+    letter-spacing: -0.02em;
+    margin-top: 0.3rem;
+  }
+  .hero p.lede {
+    font-size: 1rem;
+    line-height: 1.55;
+    color: var(--mist);
+    max-width: 420px;
+    margin-bottom: 1.75rem;
+  }
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.6rem;
+  }
+  .stat {
+    border-top: 1px solid rgba(212,165,116,0.3);
+    padding-top: 0.5rem;
+  }
+  .stat .num {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem;
+    color: var(--bone);
+    line-height: 1;
+  }
+  .stat .lbl {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--rain);
+    margin-top: 0.3rem;
+  }
+
+  /* SECTIONS */
+  section { padding: 3rem 1.5rem; position: relative; }
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .section-tag::before { content: ""; height: 1px; width: 22px; background: var(--gold); }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.9rem, 7.5vw, 2.7rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+  .section-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 400;
+  }
+
+  /* WHY */
+  .why { background: linear-gradient(180deg, #1c2e26 0%, #0a1410 100%); }
+  .why-grid { display: grid; gap: 0.7rem; }
+  .reason {
+    border: 1px solid rgba(201,212,204,0.1);
+    background: rgba(20,32,25,0.4);
+    padding: 1rem 1.2rem;
+    position: relative;
+    backdrop-filter: blur(8px);
+  }
+  .reason-num {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--gold);
+    position: absolute;
+    top: 0.65rem; right: 0.9rem;
+    opacity: 0.7;
+  }
+  .reason h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: var(--bone);
+    padding-right: 1.5rem;
+  }
+  .reason p {
+    color: var(--mist);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+
+  /* ROSTER */
+  .roster {
+    background: linear-gradient(180deg, #0a1410 0%, #142019 100%);
+    position: relative;
+  }
+  .roster-intro {
+    color: var(--mist);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    max-width: 480px;
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+  }
+  .roster-intro em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--gold);
+  }
+  .squad { display: grid; gap: 0.75rem; }
+  .player {
+    display: grid;
+    grid-template-columns: 44px 1fr auto;
+    gap: 0.9rem;
+    align-items: center;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(201,212,204,0.1);
+    background: rgba(20,32,25,0.5);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+  }
+  .player:hover {
+    border-color: var(--gold);
+    transform: translateX(4px);
+  }
+  .player-num {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.8rem;
+    color: var(--gold);
+    line-height: 1;
+    text-align: center;
+    opacity: 0.85;
+  }
+  .player-info h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--bone);
+    line-height: 1.1;
+    margin-bottom: 0.2rem;
+  }
+  .player-info p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rain);
+    line-height: 1.4;
+  }
+  .player-status {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+  .player.captain .player-status {
+    background: var(--gold);
+    color: var(--ink);
+  }
+  .player.pending .player-status {
+    border-color: var(--rust);
+    color: var(--rust);
+  }
+
+  /* ITINERARY */
+  .itin { background: var(--ink); }
+  .day {
+    border-top: 1px solid rgba(212,165,116,0.2);
+    padding: 1.25rem 0;
+  }
+  .day:last-child { border-bottom: 1px solid rgba(212,165,116,0.2); }
+  .day-head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    margin-bottom: 0.4rem;
+    flex-wrap: wrap;
+  }
+  .day-num {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 2rem;
+    line-height: 0.8;
+    color: var(--gold);
+  }
+  .day-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rain);
+  }
+  .day-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    line-height: 1.3;
+    margin: 0.15rem 0 0.4rem;
+    color: var(--bone);
+  }
+  .day-title em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--leaf);
+  }
+  .day-body {
+    color: var(--mist);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    opacity: 0.9;
+  }
+  .day-body strong { color: var(--bone); font-weight: 500; }
+
+  /* DRINKS */
+  .drinks {
+    background: linear-gradient(180deg, #0a1410 0%, #2d1810 50%, #0a1410 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .drinks::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(198,107,61,0.12), transparent 60%);
+    pointer-events: none;
+  }
+  .drinks-content { position: relative; z-index: 2; }
+  .drinks .section-title em { color: var(--rust); }
+  .drinks .section-tag { color: var(--rust); }
+  .drinks .section-tag::before { background: var(--rust); }
+
+  .drink-list { display: grid; gap: 0.7rem; margin-top: 0.75rem; }
+  .drink-item {
+    display: flex;
+    gap: 0.85rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed rgba(212,165,116,0.2);
+  }
+  .drink-item:last-child { border-bottom: none; }
+  .drink-icon {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--gold);
+    min-width: 22px;
+    line-height: 1.2;
+  }
+  .drink-item h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 0.98rem;
+    font-weight: 500;
+    margin-bottom: 0.15rem;
+    color: var(--bone);
+  }
+  .drink-item p {
+    font-size: 0.83rem;
+    color: var(--mist);
+    line-height: 1.5;
+    opacity: 0.85;
+  }
+  .bottom-line {
+    border-left: 2px solid var(--gold);
+    background: rgba(212,165,116,0.06);
+    padding: 0.85rem 1.1rem;
+    margin-top: 1.25rem;
+    font-family: 'Fraunces', serif;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--bone);
+  }
+  .bottom-line em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  /* VIBE */
+  .vibe {
+    background: var(--moss);
+    padding: 3rem 1.5rem;
+    text-align: center;
+    position: relative;
+  }
+  .vibe::before, .vibe::after {
+    content: "";
+    position: absolute;
+    left: 50%; transform: translateX(-50%);
+    width: 50px; height: 1px;
+    background: var(--gold);
+  }
+  .vibe::before { top: 1.25rem; }
+  .vibe::after { bottom: 1.25rem; }
+  .vibe blockquote {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: clamp(1.3rem, 5vw, 1.7rem);
+    line-height: 1.35;
+    color: var(--bone);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .vibe blockquote span { color: var(--gold); }
+
+  /* BUDGET */
+  .budget { background: var(--ink); }
+  .budget-intro {
+    color: var(--mist);
+    font-size: 0.9rem;
+    opacity: 0.85;
+    margin-bottom: 0.5rem;
+  }
+  .budget-intro strong { color: var(--gold); font-weight: 500; font-style: italic; font-family: 'Instrument Serif', serif; }
+  .cost-table {
+    border-top: 1px solid rgba(212,165,116,0.3);
+    margin-top: 0.5rem;
+  }
+  .cost-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(201,212,204,0.08);
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .cost-row .label {
+    font-family: 'Fraunces', serif;
+    font-size: 0.92rem;
+    color: var(--bone);
+  }
+  .cost-row .label small {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--rain);
+    margin-top: 0.15rem;
+    font-weight: normal;
+  }
+  .cost-row .amt {
+    font-family: 'Fraunces', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    white-space: nowrap;
+  }
+  .cost-row.total {
+    border-bottom: none;
+    border-top: 2px solid var(--gold);
+    margin-top: 0.4rem;
+    padding-top: 1rem;
+  }
+  .cost-row.total .label {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+  }
+  .cost-row.total .amt {
+    font-size: 1.55rem;
+  }
+  .cost-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rain);
+    margin-top: 0.75rem;
+    opacity: 0.7;
+    line-height: 1.6;
+  }
+
+  /* CTA */
+  .final {
+    background:
+      radial-gradient(ellipse at 50% 100%, rgba(212,165,116,0.2), transparent 60%),
+      linear-gradient(180deg, #0a1410, #1c2e26);
+    padding: 4rem 1.5rem 3.5rem;
+    text-align: center;
+  }
+  .final h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 9vw, 3rem);
+    line-height: 0.95;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .final h2 em {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .final p {
+    color: var(--mist);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    max-width: 400px;
+    margin: 0 auto 1.75rem;
+  }
+  .cta {
+    display: inline-block;
+    padding: 0.95rem 2.1rem;
+    background: var(--gold);
+    color: var(--ink);
+    text-decoration: none;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  .cta:hover {
+    background: var(--bone);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(212,165,116,0.3);
+  }
+  .signature {
+    font-family: 'Instrument Serif', serif;
+    font-style: italic;
+    color: var(--rain);
+    margin-top: 1.75rem;
+    font-size: 0.95rem;
+    opacity: 0.8;
+  }
+  footer {
+    padding: 1.25rem;
+    text-align: center;
+    background: #050a08;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rain);
+    opacity: 0.5;
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (min-width: 720px) {
+    section { padding: 4.5rem 3rem; }
+    .why-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .hero { padding: 2.5rem 3rem 3.5rem; }
+    .final { padding: 5rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="rain" id="rain"></div>
+  <div class="mist-layer"></div>
+
+  <div class="top-bar">
+    <span><span class="dot"></span>The pitch · 5 of us</span>
+    <span>Haneesh · 2026</span>
+  </div>
+
+  <div class="hero-content">
+    <div class="kicker">For the boys</div>
+    <h1>
+      Matheran.
+      <em>4 days. No engines. Full monsoon.</em>
+    </h1>
+    <p class="lede">
+      India's only car-free hill station. Mist, monkeys, red-earth trails. Us, balconies in the clouds, cold ones.
+    </p>
+    <div class="stats-row">
+      <div class="stat"><div class="num">4</div><div class="lbl">Days</div></div>
+      <div class="stat"><div class="num">5</div><div class="lbl">Boys</div></div>
+      <div class="stat"><div class="num">25°C</div><div class="lbl">Cool</div></div>
+      <div class="stat"><div class="num">0</div><div class="lbl">Cars</div></div>
+    </div>
+  </div>
+</header>
+
+<!-- WHY -->
+<section class="why">
+  <div class="section-tag reveal">The case</div>
+  <h2 class="section-title reveal">Why <em>this.</em></h2>
+
+  <div class="why-grid">
+    <div class="reason reveal">
+      <span class="reason-num">i.</span>
+      <h3>Zero engines</h3>
+      <p>India's only car-free hill town. No horns, no traffic — just forest.</p>
+    </div>
+    <div class="reason reveal">
+      <span class="reason-num">ii.</span>
+      <h3>Monsoon mood</h3>
+      <p>25°C, mist, waterfalls, off-season = empty trails. Peak vibe.</p>
+    </div>
+    <div class="reason reveal">
+      <span class="reason-num">iii.</span>
+      <h3>Drinks sorted</h3>
+      <p>BYOB hotels. One legendary local bar. We're covered.</p>
+    </div>
+    <div class="reason reveal">
+      <span class="reason-num">iv.</span>
+      <h3>No signal</h3>
+      <p>Patchy network. Slow town. Nothing to do but actually hang out.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROSTER -->
+<section class="roster">
+  <div class="section-tag reveal">The squad</div>
+  <h2 class="section-title reveal">The <em>starting five.</em></h2>
+
+  <p class="roster-intro reveal">
+    Pre-selected. Pre-approved. Non-transferable. If your name's here, the spot's reserved — just need a <em>yes.</em>
+  </p>
+
+  <div class="squad">
+    <div class="player captain reveal">
+      <div class="player-num">01</div>
+      <div class="player-info">
+        <h4>Haneesh</h4>
+        <p>The one writing this · trip-planner-in-chief</p>
+      </div>
+      <span class="player-status">Captain</span>
+    </div>
+
+    <div class="player reveal">
+      <div class="player-num">02</div>
+      <div class="player-info">
+        <h4>Gauthu</h4>
+        <p>Will say yes after one phone call · housewarming-king</p>
+      </div>
+      <span class="player-status">Locked</span>
+    </div>
+
+    <div class="player reveal">
+      <div class="player-num">03</div>
+      <div class="player-info">
+        <h4>Dobu</h4>
+        <p>Comes for the views · stays for the drinks</p>
+      </div>
+      <span class="player-status">In</span>
+    </div>
+
+    <div class="player pending reveal">
+      <div class="player-num">04</div>
+      <div class="player-info">
+        <h4>Kani</h4>
+        <p>Will overthink the budget for 3 days · then book anyway</p>
+      </div>
+      <span class="player-status">Pending</span>
+    </div>
+
+    <div class="player pending reveal">
+      <div class="player-num">05</div>
+      <div class="player-info">
+        <h4>Jyo</h4>
+        <p>"I'll think about it" · already packed mentally</p>
+      </div>
+      <span class="player-status">Pending</span>
+    </div>
+  </div>
+</section>
+
+<!-- ITINERARY -->
+<section class="itin">
+  <div class="section-tag reveal">The plan</div>
+  <h2 class="section-title reveal">Four days, <em>slow.</em></h2>
+
+  <div class="day reveal">
+    <div class="day-head">
+      <span class="day-num">01</span>
+      <span class="day-label">Fri · Arrive</span>
+    </div>
+    <h3 class="day-title">Kerala → up the hill</h3>
+    <p class="day-body">Fly to Mumbai. Cab to Neral (<strong>stock the booze here — way cheaper</strong>). Up to Dasturi, walk in. Check in, balcony, first round.</p>
+  </div>
+
+  <div class="day reveal">
+    <div class="day-head">
+      <span class="day-num">02</span>
+      <span class="day-label">Sat · Big day</span>
+    </div>
+    <h3 class="day-title">Viewpoints, lake, <em>long night.</em></h3>
+    <p class="day-body">Viewpoint loop: <strong>Louisa → Echo → One Tree Hill</strong>. Lunch by Charlotte Lake. Evening — balcony, drinks, rain on the roof. <strong>The night.</strong></p>
+  </div>
+
+  <div class="day reveal">
+    <div class="day-head">
+      <span class="day-num">03</span>
+      <span class="day-label">Sun · Recover</span>
+    </div>
+    <h3 class="day-title">Bazaar + <em>Pramod Bar.</em></h3>
+    <p class="day-body">Lazy morning. MG Road walk, lunch at <strong>Hakimi's</strong>. Afternoon to Dodhani Waterfall. Evening at <strong>Pramod Bar</strong> — the only proper bar in town.</p>
+  </div>
+
+  <div class="day reveal">
+    <div class="day-head">
+      <span class="day-num">04</span>
+      <span class="day-label">Mon · Out</span>
+    </div>
+    <h3 class="day-title">Wind down, fly home</h3>
+    <p class="day-body">Slow breakfast. Walk down to Dasturi. Cab to airport. <strong>Afternoon flight back.</strong> Done.</p>
+  </div>
+</section>
+
+<!-- DRINKS -->
+<section class="drinks">
+  <div class="drinks-content">
+    <div class="section-tag reveal">FYI</div>
+    <h2 class="section-title reveal">The drinks <em>map.</em></h2>
+
+    <div class="drink-list">
+      <div class="drink-item reveal">
+        <span class="drink-icon">i.</span>
+        <div>
+          <h4>Stock at Neral (Plan A)</h4>
+          <p>Multiple liquor shops at the foot of the hill. Cheap. Hotels allow drinking in rooms and balconies.</p>
+        </div>
+      </div>
+      <div class="drink-item reveal">
+        <span class="drink-icon">ii.</span>
+        <div>
+          <h4>Pramod Bar (Plan B)</h4>
+          <p>The only proper bar in Matheran. MG Road. Beers, spirits, cheap. One solid night.</p>
+        </div>
+      </div>
+      <div class="drink-item reveal">
+        <span class="drink-icon">iii.</span>
+        <div>
+          <h4>Hotel bars (Plan C)</h4>
+          <p>Byke Heritage etc. have small in-house bars. Backup if we run dry.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-line reveal">
+      Stock at Neral. Three balcony nights. One Pramod night. <em>Set.</em>
+    </div>
+  </div>
+</section>
+
+<!-- VIBE -->
+<section class="vibe">
+  <blockquote class="reveal">
+    "Mist on the windows. <span>Monkeys on the roof.</span> A hill where nothing happens — that's the point."
+  </blockquote>
+</section>
+
+<!-- BUDGET -->
+<section class="budget">
+  <div class="section-tag reveal">The damage</div>
+  <h2 class="section-title reveal">Per head, <em>all in.</em></h2>
+
+  <p class="budget-intro reveal">
+    <strong>5 of us splitting.</strong> Budget rooms, smart eating, BYOB.
+  </p>
+
+  <div class="cost-table reveal">
+    <div class="cost-row">
+      <div class="label">Flight (return)<small>Kerala ⇌ Mumbai, IndiGo</small></div>
+      <div class="amt">₹12,000</div>
+    </div>
+    <div class="cost-row">
+      <div class="label">Transport<small>Cabs + shared taxi, split 5 ways</small></div>
+      <div class="amt">₹1,000</div>
+    </div>
+    <div class="cost-row">
+      <div class="label">Hotel · 3 nights<small>2 rooms split 5 ways</small></div>
+      <div class="amt">₹2,200</div>
+    </div>
+    <div class="cost-row">
+      <div class="label">Food · 4 days<small>Local thalis + street eats</small></div>
+      <div class="amt">₹1,800</div>
+    </div>
+    <div class="cost-row">
+      <div class="label">Drinks kitty<small>Neral stash + Pramod night</small></div>
+      <div class="amt">₹1,500</div>
+    </div>
+    <div class="cost-row">
+      <div class="label">Buffer<small>Chikki, horses, surprises</small></div>
+      <div class="amt">₹800</div>
+    </div>
+    <div class="cost-row total">
+      <div class="label">Per person</div>
+      <div class="amt">≈ ₹19,300</div>
+    </div>
+  </div>
+
+  <p class="cost-note reveal">
+    Note · Total trip cost ≈ ₹96,500 for the five of us. Book flights early to lock the number.
+  </p>
+</section>
+
+<!-- CTA -->
+<section class="final">
+  <h2 class="reveal">So. <em>You in?</em></h2>
+  <p class="reveal">Need a yes by end of this week so I can lock flights before prices climb.</p>
+  <a href="#" class="cta reveal" id="ctaBtn">Count me in →</a>
+  <p class="signature reveal">— Haneesh</p>
+</section>
+
+<footer>Operation Matheran · 2026</footer>
+
+<script>
+  const rain = document.getElementById('rain');
+  for (let i = 0; i < 60; i++) {
+    const d = document.createElement('div');
+    d.className = 'drop';
+    d.style.left = Math.random() * 100 + '%';
+    d.style.height = (20 + Math.random() * 60) + 'px';
+    d.style.animationDuration = (0.5 + Math.random() * 1.2) + 's';
+    d.style.animationDelay = Math.random() * 3 + 's';
+    d.style.opacity = 0.3 + Math.random() * 0.5;
+    rain.appendChild(d);
+  }
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const cta = document.getElementById('ctaBtn');
+  cta.addEventListener('click', (e) => {
+    e.preventDefault();
+    cta.textContent = "✓ Locked in.";
+    cta.style.background = 'var(--leaf)';
+    cta.style.color = 'var(--bone)';
+  });
+</script>
+
+</body>
+</html>
